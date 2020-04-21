@@ -212,6 +212,26 @@
     BLE33のFirmwareの焼き込み
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" title="コマンドラインツールのインストール" class="md-nav__link">
+    コマンドラインツールのインストール
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="ブートローダーをダウンロード" class="md-nav__link">
+    ブートローダーをダウンロード
+  </a>
+  
 </li>
       
       
@@ -222,6 +242,42 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../02.ArduinoIDE/" title="ArduinoIDE" class="md-nav__link">
+      ArduinoIDE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../03.DroRacertestSPI/" title="基板テスト（SPI）" class="md-nav__link">
+      基板テスト（SPI）
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../04.DroRacertestMulti/" title="基板テスト（マルチプレクサ）" class="md-nav__link">
+      基板テスト（マルチプレクサ）
+    </a>
   </li>
 
         
@@ -255,6 +311,26 @@
     BLE33のFirmwareの焼き込み
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" title="コマンドラインツールのインストール" class="md-nav__link">
+    コマンドラインツールのインストール
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" title="ブートローダーをダウンロード" class="md-nav__link">
+    ブートローダーをダウンロード
+  </a>
+  
 </li>
       
       
@@ -276,6 +352,35 @@
                 
                 <h1 id="ble33firmware">BLE33のFirmware</h1>
 <h2 id="ble33firmware_1">BLE33のFirmwareの焼き込み</h2>
+<h3 id="_1">コマンドラインツールのインストール</h3>
+<p>SEGGER J-LINKのプログラミングツールであるnRF Command Line Toolsをインストールします。お使いの環境に合わせたツールをダウンロードします。</p>
+<p>https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Command-Line-Tools/Download</p>
+<p><img alt="" src="../img/fw01_a.png" /></p>
+<p>ここでは10.7.0のコマンドラインツールをダウンロードから解凍し、インストールします。</p>
+<p>解凍すると以下のようなパッケージ（JLinkのドライバとプログラミングツール）がダウンロードできると思います。</p>
+<p><img alt="" src="../img/fw02.png" /></p>
+<p>はじめに、JLink_MacOSX_V662b.pkgでインストール</p>
+<p>次にnRF-Command_Line_tools_10_7_0_OSX.pkgでインストールします。</p>
+<h2 id="_2">ブートローダーをダウンロード</h2>
+<p>コマンドラインを起動しArduinoのサイトから以下をクローンします。</p>
+<p>$cd ~</p>
+<p>$git clone https://github.com/arduino/ArduinoCore-nRF528x-mbedos.git</p>
+<p>ブートローダーがあるディレクトリに移動して</p>
+<p>$cd ~ /ArduinoCore-nRF528x-mbedos/bootloaders/nano33ble</p>
+<p>バージョンの確認</p>
+<p>$ nrfjprog –-version
+nrfjprog version: 10.4.1 
+JLinkARM.dll version: 6.50b</p>
+<p>下の写真のように、　デバッガ（J-Link lite）からFaBoのJLINK LITEボードとT A G―C O N NE C Tで端子を押さえつけて接続しDroRacerボードと接続、DroRacerへマイクロU S Bも給電します。（ボードへの給電が先になります。）</p>
+<p><img alt="" src="../img/fw03.jpg" /></p>
+<p>まず、nRF52のモジュール(MDBT50)のR O M領域を削除</p>
+<p>$nrfjprog -f nrf52 --eraseall</p>
+<p>ブートローダーをモジュールに焼き込みます。</p>
+<p>$nrfjprog -f nrf52 --program bootloader.hex</p>
+<p>nRF52モジュール(MDBT50)を再起動します</p>
+<p>$nrfjprog --reset</p>
+<p>これでブートローダーの焼き込みはできました。
+次は、次の章、ArduinoIDEの設定です。</p>
                 
                   
                 
@@ -310,6 +415,20 @@
             </div>
           </a>
         
+        
+          <a href="../02.ArduinoIDE/" title="ArduinoIDE" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  次
+                </span>
+                ArduinoIDE
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
         
       </nav>
     </div>
