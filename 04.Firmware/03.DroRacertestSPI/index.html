@@ -238,7 +238,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../05.BLEのテスト/" title="基板テスト（B L Eのテスト）" class="md-nav__link">
+    <a href="../05.BLEtest/" title="基板テスト（B L Eのテスト）" class="md-nav__link">
       基板テスト（B L Eのテスト）
     </a>
   </li>
@@ -281,114 +281,304 @@
 <p>S P I＿LEDを光らせます。
 Arduino IDEのマイコンボードを書き込むボタンを押す前にリセットボタンを1回押しましょう。</p>
 <p><img alt="" src="../img/SPI_LED_PW.JPG" /></p>
-<p> <table class=codehilitetable><tr><td class=linenos><div class=linenodiv><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56</pre></div></td><td class=code><div class=codehilite><pre><span></span><code><span class=c1>//JetRacer echoback LEDtest</span>
+<p> <table class=codehilitetable><tr><td class=linenos><div class=linenodiv><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre></div></td><td class=code><div class=codehilite><pre><span></span><code><span class=c1>//DroRacer echoback LEDtest Version 1.0.0</span>
 <span class=cp>#include</span> <span class=cpf>&quot;SPI.h&quot;</span><span class=cp></span>
-<span class=n>byte</span> <span class=n>start</span> <span class=o>=</span> <span class=mh>0x00</span><span class=p>;</span>
-<span class=n>byte</span> <span class=n>end</span> <span class=o>=</span> <span class=mh>0x00</span><span class=p>;</span>
-<span class=kt>void</span> <span class=p>(</span><span class=o>*</span> <span class=n>pfunc</span><span class=p>)(</span><span class=kt>short</span><span class=p>,</span><span class=kt>short</span><span class=p>,</span><span class=kt>short</span><span class=p>,</span><span class=n>byte</span><span class=p>);</span>
-<span class=kt>void</span> <span class=nf>startBit</span><span class=p>()</span> <span class=p>{</span>
-  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>start</span><span class=p>);</span>
-  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>start</span><span class=p>);</span>
-  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>start</span><span class=p>);</span>
-  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>start</span><span class=p>);</span>
+<span class=kt>void</span> <span class=nf>startFrame</span><span class=p>()</span> <span class=p>{</span>       <span class=c1>//スタートフレーム３２ビット（０*３２ ）</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0x00</span><span class=p>);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0x00</span><span class=p>);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0x00</span><span class=p>);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0x00</span><span class=p>);</span>
 <span class=p>}</span>
-<span class=kt>void</span> <span class=nf>endBit</span><span class=p>()</span> <span class=p>{</span>
-  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>end</span><span class=p>);</span>
-  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>end</span><span class=p>);</span>
-  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>end</span><span class=p>);</span>
-  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>end</span><span class=p>);</span>
+<span class=kt>void</span> <span class=nf>endFrame</span><span class=p>()</span> <span class=p>{</span>       <span class=c1>//エンドフレーム３２ビット（１*３２ ）</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0xFF</span><span class=p>);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0xFF</span><span class=p>);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0xFF</span><span class=p>);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0xFF</span><span class=p>);</span>
 <span class=p>}</span>
-<span class=kt>void</span> <span class=nf>setRGBR</span><span class=p>(</span><span class=kt>short</span> <span class=n>r</span><span class=p>,</span> <span class=kt>short</span> <span class=n>g</span><span class=p>,</span> <span class=kt>short</span> <span class=n>b</span><span class=p>,</span><span class=n>byte</span> <span class=n>t</span><span class=p>)</span> <span class=p>{</span>
-  <span class=k>for</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>t</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>){</span>
-    <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0xEF</span><span class=p>);</span>
-    <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>r</span><span class=p>);</span>
-    <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>g</span><span class=p>);</span>
-    <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>b</span><span class=p>);</span>
+<span class=kt>void</span> <span class=nf>setRGB</span><span class=p>(</span><span class=n>byte</span> <span class=n>updown</span><span class=p>,</span><span class=n>byte</span> <span class=n>r</span><span class=p>,</span><span class=n>byte</span> <span class=n>g</span><span class=p>,</span><span class=n>byte</span> <span class=n>b</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>static</span> <span class=n>byte</span> <span class=n>a</span> <span class=o>=</span> <span class=mh>0xFF</span><span class=p>;</span>
+  <span class=k>static</span> <span class=n>byte</span> <span class=n>c1</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+  <span class=k>static</span> <span class=n>byte</span> <span class=n>c2</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+  <span class=k>static</span> <span class=n>byte</span> <span class=n>c3</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+  <span class=n>byte</span> <span class=n>basic_color</span><span class=p>[</span><span class=mi>4</span><span class=p>];</span>
+  <span class=k>if</span> <span class=p>(</span><span class=n>updown</span> <span class=o>==</span> <span class=mh>0x00</span><span class=p>){</span>      <span class=c1>//LED点灯,LED消灯</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=mh>0xFF</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=n>b</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>2</span><span class=p>]</span> <span class=o>=</span> <span class=n>g</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=o>=</span> <span class=n>r</span><span class=p>;</span>
+    <span class=n>c1</span> <span class=o>=</span> <span class=n>b</span><span class=p>;</span>
+    <span class=n>c2</span> <span class=o>=</span> <span class=n>g</span><span class=p>;</span>
+    <span class=n>c3</span> <span class=o>=</span> <span class=n>r</span><span class=p>;</span>
+  <span class=p>}</span><span class=k>else</span> <span class=k>if</span><span class=p>(</span><span class=n>updown</span> <span class=o>==</span> <span class=mh>0x01</span><span class=p>){</span> <span class=c1>//調光UP</span>
+    <span class=n>a</span><span class=o>++</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=mh>0xE0</span> <span class=o>|</span> <span class=n>a</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=n>c1</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>2</span><span class=p>]</span> <span class=o>=</span> <span class=n>c2</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=o>=</span> <span class=n>c3</span><span class=p>;</span>
+  <span class=p>}</span><span class=k>else</span> <span class=k>if</span><span class=p>(</span><span class=n>updown</span> <span class=o>==</span> <span class=mh>0x02</span><span class=p>){</span> <span class=c1>//調光DOWN</span>
+    <span class=n>a</span><span class=o>--</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=mh>0xE0</span> <span class=o>|</span> <span class=n>a</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=n>c1</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>2</span><span class=p>]</span> <span class=o>=</span> <span class=n>c2</span><span class=p>;</span>
+    <span class=n>basic_color</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=o>=</span> <span class=n>c3</span><span class=p>;</span>
   <span class=p>}</span>
+  <span class=n>startFrame</span><span class=p>();</span>
+  <span class=c1>//DataFrame</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>0</span><span class=p>]);</span> <span class=c1>//LED1</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>1</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>2</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>3</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>0</span><span class=p>]);</span> <span class=c1>//LED2</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>1</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>2</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>3</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>0</span><span class=p>]);</span> <span class=c1>//LED3</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>1</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>2</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>3</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>0</span><span class=p>]);</span> <span class=c1>//LED4</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>1</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>2</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>3</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>0</span><span class=p>]);</span> <span class=c1>//LED5</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>1</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>2</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>3</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>0</span><span class=p>]);</span> <span class=c1>//LED6</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>1</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>2</span><span class=p>]);</span>
+  <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>basic_color</span><span class=p>[</span><span class=mi>3</span><span class=p>]);</span>
+  <span class=n>endFrame</span><span class=p>();</span>
 <span class=p>}</span>
-<span class=kt>void</span> <span class=nf>setRGB</span><span class=p>(</span><span class=kt>short</span> <span class=n>r</span><span class=p>,</span> <span class=kt>short</span> <span class=n>g</span><span class=p>,</span> <span class=kt>short</span> <span class=n>b</span><span class=p>)</span> <span class=p>{</span>
-    <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=mh>0xEF</span><span class=p>);</span>
-    <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>r</span><span class=p>);</span>
-    <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>g</span><span class=p>);</span>
-    <span class=n>SPI</span><span class=p>.</span><span class=n>transfer</span><span class=p>(</span><span class=n>b</span><span class=p>);</span>
-  <span class=p>}</span>
 <span class=kt>void</span> <span class=nf>setup</span><span class=p>()</span> <span class=p>{</span>
   <span class=n>Serial</span><span class=p>.</span><span class=n>begin</span><span class=p>(</span><span class=mi>115200</span><span class=p>);</span>
   <span class=n>SPI</span><span class=p>.</span><span class=n>begin</span><span class=p>();</span>
-  <span class=n>pfunc</span> <span class=o>=</span> <span class=n>setRGBR</span><span class=p>;</span>
+  <span class=n>Serial</span><span class=p>.</span><span class=n>print</span><span class=p>(</span><span class=s>&quot;*********Droracer EcobackTest version　1.0 Start*********</span><span class=se>\n\r</span><span class=s>&quot;</span><span class=p>);</span>
+  <span class=n>setRGB</span><span class=p>(</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>);</span>  <span class=c1>//LED消灯</span>
 <span class=p>}</span>
 <span class=kt>void</span> <span class=nf>loop</span><span class=p>()</span> <span class=p>{</span>
+  <span class=c1>//キースキャン</span>
   <span class=k>if</span> <span class=p>(</span><span class=n>Serial</span><span class=p>.</span><span class=n>available</span><span class=p>())</span> <span class=p>{</span>
     <span class=kt>char</span> <span class=n>c</span><span class=o>=</span><span class=n>Serial</span><span class=p>.</span><span class=n>read</span><span class=p>();</span>
-    <span class=k>if</span><span class=p>(</span><span class=err>‘</span><span class=n>v</span><span class=err>’</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
-      <span class=n>Serial</span><span class=p>.</span><span class=n>print</span><span class=p>(</span><span class=err>“</span><span class=n>JetRacer</span> <span class=n>EcobackTestversion</span>　<span class=mf>1.0</span><span class=err>\</span><span class=n>n</span><span class=err>\</span><span class=n>r</span><span class=err>”</span><span class=p>);</span>
+    <span class=k>if</span><span class=p>(</span><span class=sc>&#39;v&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+      <span class=n>Serial</span><span class=p>.</span><span class=n>print</span><span class=p>(</span><span class=s>&quot;*********LED &amp; ECHO TestStart*********</span><span class=se>\n\r</span><span class=s>&quot;</span><span class=p>);</span>
     <span class=p>}</span><span class=k>else</span><span class=p>{</span>
       <span class=n>Serial</span><span class=p>.</span><span class=n>write</span><span class=p>(</span><span class=n>c</span><span class=p>);</span>
-      <span class=n>startBit</span><span class=p>();</span>                   <span class=c1>//スタートビット</span>
-      <span class=k>if</span> <span class=p>(</span><span class=err>‘</span><span class=n>r</span><span class=err>’</span> <span class=o>==</span> <span class=n>c</span><span class=p>)</span>
+      <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;r&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>)</span>
       <span class=p>{</span>
-        <span class=n>pfunc</span><span class=p>(</span><span class=mi>255</span><span class=p>,</span><span class=mi>0</span><span class=p>,</span><span class=mi>0</span><span class=p>,</span><span class=mi>6</span><span class=p>);</span>           <span class=c1>//LED6個に青色に発光</span>
-      <span class=p>}</span><span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=err>‘</span><span class=n>g</span><span class=err>’</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
-        <span class=n>pfunc</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span><span class=mi>255</span><span class=p>,</span><span class=mi>0</span><span class=p>,</span><span class=mi>6</span><span class=p>);</span>           <span class=c1>//LED6個に緑色に発光</span>
-      <span class=p>}</span><span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=err>‘</span><span class=n>b</span><span class=err>’</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
-        <span class=n>pfunc</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span><span class=mi>0</span><span class=p>,</span><span class=mi>255</span><span class=p>,</span><span class=mi>6</span><span class=p>);</span>           <span class=c1>//LED6個に赤色に発光</span>
+        <span class=n>setRGB</span><span class=p>(</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>,</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>);</span>
+        <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Red&quot;</span><span class=p>);</span>
       <span class=p>}</span>
-      <span class=n>endBit</span><span class=p>();</span>                     <span class=c1>//エンドビット</span>
+      <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;g&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+        <span class=n>setRGB</span><span class=p>(</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>,</span><span class=mh>0x00</span><span class=p>);</span>
+        <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Green&quot;</span><span class=p>);</span>
+      <span class=p>}</span>
+      <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;b&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+        <span class=n>setRGB</span><span class=p>(</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>);</span>
+        <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Blue&quot;</span><span class=p>);</span>
+      <span class=p>}</span>
+      <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;w&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+        <span class=n>setRGB</span><span class=p>(</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>);</span>
+        <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;White&quot;</span><span class=p>);</span>
+      <span class=p>}</span>
+      <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;k&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+        <span class=n>setRGB</span><span class=p>(</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>,</span><span class=mh>0x00</span><span class=p>);</span>
+        <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Turn off LED.&quot;</span><span class=p>);</span>
+      <span class=p>}</span>
+      <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;h&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+        <span class=n>setRGB</span><span class=p>(</span><span class=mh>0x01</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>);</span>
+        <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Light up.&quot;</span><span class=p>);</span>
+      <span class=p>}</span>
+      <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;l&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+        <span class=n>setRGB</span><span class=p>(</span><span class=mh>0x02</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>,</span><span class=mh>0xFF</span><span class=p>);</span>
+        <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Light down.&quot;</span><span class=p>);</span>
+      <span class=p>}</span>
+      <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;y&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+        <span class=k>static</span> <span class=n>boolean</span> <span class=n>t1</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+        <span class=k>if</span> <span class=p>(</span><span class=nb>false</span> <span class=o>==</span> <span class=n>t1</span><span class=p>){</span>
+          <span class=n>digitalWrite</span><span class=p>(</span><span class=mi>3</span><span class=p>,</span><span class=n>HIGH</span><span class=p>);</span>
+          <span class=n>t1</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
+          <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Internal LED1.Trun ON.&quot;</span><span class=p>);</span>
+        <span class=p>}</span><span class=k>else</span><span class=p>{</span>
+          <span class=n>digitalWrite</span><span class=p>(</span><span class=mi>3</span><span class=p>,</span><span class=n>LOW</span><span class=p>);</span>
+          <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Internal LED1.Trun OFF.&quot;</span><span class=p>);</span>
+          <span class=n>t1</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+        <span class=p>}</span>
+      <span class=p>}</span>
+      <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;u&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+       <span class=k>static</span> <span class=n>boolean</span> <span class=n>t2</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+        <span class=k>if</span> <span class=p>(</span><span class=nb>false</span> <span class=o>==</span> <span class=n>t2</span><span class=p>){</span>
+          <span class=n>digitalWrite</span><span class=p>(</span><span class=mi>4</span><span class=p>,</span><span class=n>HIGH</span><span class=p>);</span>
+          <span class=n>t2</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
+          <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Internal LED2.Trun ON.&quot;</span><span class=p>);</span>
+        <span class=p>}</span><span class=k>else</span><span class=p>{</span>
+          <span class=n>digitalWrite</span><span class=p>(</span><span class=mi>4</span><span class=p>,</span><span class=n>LOW</span><span class=p>);</span>
+          <span class=n>t2</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+          <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;Internal LED2.Trun OFF.&quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+      <span class=p>}</span>
+      <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=sc>&#39;p&#39;</span> <span class=o>==</span> <span class=n>c</span><span class=p>){</span>
+           <span class=k>static</span> <span class=n>boolean</span> <span class=n>t3</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+           <span class=k>if</span> <span class=p>(</span><span class=nb>false</span> <span class=o>==</span> <span class=n>t3</span><span class=p>){</span>
+           <span class=n>digitalWrite</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span><span class=n>HIGH</span><span class=p>);</span>
+           <span class=n>t3</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
+           <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;MLTIPLEXER.Trun HIGH.&quot;</span><span class=p>);</span>
+           <span class=p>}</span><span class=k>else</span><span class=p>{</span>
+           <span class=n>digitalWrite</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span><span class=n>LOW</span><span class=p>);</span>
+           <span class=n>t3</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+           <span class=n>Serial</span><span class=p>.</span><span class=n>println</span><span class=p>(</span><span class=s>&quot;MLTIPLEXER.Trun LOW.&quot;</span><span class=p>);</span>
+        <span class=p>}</span>
+      <span class=p>}</span>
     <span class=p>}</span>
   <span class=p>}</span>
 <span class=p>}</span> 
